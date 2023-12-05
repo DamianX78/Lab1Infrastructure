@@ -55,7 +55,14 @@ jobs:
       group: my-group
 
     steps:
-    
+
+    - name: Cache build venv
+      id: cache-poetry-dependencies
+      uses: actions/cache@v3
+      with:
+        path: /home/runner/work/<path>/example-app/.venv
+        key: ${{ runner.os }}-venv
+        
     - name: Lint 
       run: poetry run task lint
 
@@ -65,12 +72,7 @@ jobs:
     - name: Security
       run: poetry run task security
 
-    - name: Cache build venv
-      id: cache-poetry-dependencies
-      uses: actions/cache@v3
-      with:
-        path: /home/runner/work/<path>/example-app/.venv
-        key: ${{ runner.os }}-venv
+    
 
   job3:
     
@@ -80,9 +82,6 @@ jobs:
       group: my-group
 
     steps:
-    
-    - name: Test with pytest
-      run: poetry run task test
 
     - name: Cache build venv
       id: cache-poetry-dependencies
@@ -90,3 +89,8 @@ jobs:
       with:
         path: /home/runner/work/<path>/example-app/.venv
         key: ${{ runner.os }}-venv
+        
+    - name: Test with pytest
+      run: poetry run task test
+
+    
