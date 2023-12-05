@@ -31,6 +31,9 @@ jobs:
         python-version: "3.10"
     - name: Install Poetry Action
       uses: snok/install-poetry@v1.3.4
+
+    - name: Add poetry to path
+      run: export PATH=@PATH:$HOME/.local/bin
               
     - name: Install dependencies
       run: poetry install --no-root
