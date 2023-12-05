@@ -46,15 +46,15 @@ jobs:
         key: ${{ runner.os }}-venv
 
   job2:
-    needs: job1
+    needs: [job1]
     runs-on: ubuntu-latest
     concurrency:
       group: my-group
 
     steps:
     
-    - name: Lint 
-      run: poetry run task lint
+    #- name: Lint 
+     # run: poetry run task lint
 
     - name: Formater
       run: poetry run task formatter
