@@ -45,7 +45,7 @@ jobs:
       id: cache-poetry-dependencies
       uses: actions/cache@v3
       with:
-        path: /home/runner/work/DamianX78/Lab1Infrastructure/example-app/.venv
+        path: /home/runner/work/DamianX78/example-app/.venv
         key: ${{ runner.os }}-venv
 
   job2:
@@ -60,7 +60,7 @@ jobs:
       id: cache-poetry-dependencies
       uses: actions/cache@v3
       with:
-        path: /home/runner/work/DamianX78/Lab1Infrastructure/example-app/.venv
+        path: /home/runner/work/DamianX78/example-app/.venv
         key: ${{ runner.os }}-venv
         
     - name: Lint 
@@ -87,7 +87,7 @@ jobs:
       id: cache-poetry-dependencies
       uses: actions/cache@v3
       with:
-        path: /home/runner/work/DamianX78/Lab1Infrastructure/example-app/.venv
+        path: /home/runner/work/DamianX78/example-app/.venv
         key: ${{ runner.os }}-venv
         
     - name: Test with pytest
