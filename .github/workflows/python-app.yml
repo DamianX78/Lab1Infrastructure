@@ -13,9 +13,11 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  job1:
 
     runs-on: ubuntu-latest
+    concurrency:
+      group: my-group
 
     defaults:
       run:
@@ -32,9 +34,53 @@ jobs:
               
     - name: Install dependencies
       run: poetry install --no-root
+
+    - name: Cache build venv
+      id: cache-poetry-dependencies
+      uses: actions/cache@v3
+      with:
+        path: /home/runner/work/<path>/example-app/.venv
+        key: ${{ runner.os }}-venv
+
+  job2:
+    needs: job1
+    runs-on: ubuntu-latest
+    concurrency:
+      group: my-group
+
+    steps:
     
     - name: Lint 
       run: poetry run task lint
-        
+
+    - name: Formater
+      run: poetry run task formatter
+
+    - name: Security
+      run: poetry run task security
+
+    - name: Cache build venv
+      id: cache-poetry-dependencies
+      uses: actions/cache@v3
+      with:
+        path: /home/runner/work/<path>/example-app/.venv
+        key: ${{ runner.os }}-venv
+
+  job3:
+    
+    needs: [job1, job2]
+    runs-on: ubuntu-latest
+    concurrency:
+      group: my-group
+
+    steps:
+    
     - name: Test with pytest
       run: poetry run task test
+
+    - name: Cache build venv
+      id: cache-poetry-dependencies
+      uses: actions/cache@v3
+      with:
+        path: /home/runner/work/<path>/example-app/.venv
+        key: ${{ runner.os }}-venv
