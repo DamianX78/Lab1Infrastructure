@@ -16,8 +16,6 @@ jobs:
   job1:
 
     runs-on: ubuntu-latest
-    concurrency:
-      group: my-group
 
     defaults:
       run:
@@ -31,6 +29,10 @@ jobs:
         python-version: "3.10"
     - name: Install Poetry Action
       uses: snok/install-poetry@v1.3.4
+      with:
+        version: latest
+        virtualenvs-create: true
+        virtualenvs-in-project: true        
 
     - name: Add poetry to path
       run: export PATH=@PATH:$HOME/.local/bin
@@ -42,55 +44,79 @@ jobs:
       run: poetry debug info
 
     - name: Cache build venv
-      id: cache-poetry-dependencies
+      id: cached-poetry-dependencies
       uses: actions/cache@v3
       with:
-        path: /home/runner/work/DamianX78/example-app/.venv
+        path: /home/runner/work/DamianX78/Lab1Infrastructure/example-app/.venv
         key: ${{ runner.os }}-venv
 
   job2:
-    needs: [job1]
+    needs: job1
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./example-app/
     concurrency:
-      group: my-group
+      group: work
 
     steps:
 
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: Install Poetry Action
+      uses: snok/install-poetry@v1.3.3
+      with:
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+        
     - name: Cache build venv
-      id: cache-poetry-dependencies
+      id: cached-poetry-dependencies
       uses: actions/cache@v3
       with:
-        path: /home/runner/work/DamianX78/example-app/.venv
+        path: /home/runner/work/DamianX78/Lab1Infrastructure/example-app/.venv
         key: ${{ runner.os }}-venv
+    - run: |
+        source $VENV poetry run task lint
+    - run: |
+        source $VENV poetry run task formatter
+    - run: |
+        source $VENV poetry run task security
         
-    - name: Lint 
-      run: poetry run task lint
-
-    - name: Formater
-      run: poetry run task formatter
-
-    - name: Security
-      run: poetry run task security
-
     
 
   job3:
     
     needs: [job1, job2]
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./example-app/
     concurrency:
-      group: my-group
+      group: tests
 
     steps:
 
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: Install Poetry Action
+      uses: snok/install-poetry@v1.3.3
+      with:
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+        
     - name: Cache build venv
-      id: cache-poetry-dependencies
+      id: cached-poetry-dependencies
       uses: actions/cache@v3
       with:
-        path: /home/runner/work/DamianX78/example-app/.venv
+        path: /home/runner/work/DamianX78/Lab1Infrastructure/example-app/.venv
         key: ${{ runner.os }}-venv
-        
-    - name: Test with pytest
-      run: poetry run task test
+    - run: |
+        source $VENV poetry run task test
 
     
