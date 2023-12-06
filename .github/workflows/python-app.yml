@@ -41,7 +41,7 @@ jobs:
       id: cached-poetry-dependencies
       uses: actions/cache@v3
       with:
-        path: /home/runner/work/DamianX78/Lab1Infrastructure/example-app/.venv
+        path: /home/runner/work/Lab1Infrastructure/Lab1Infrastructure/example-app/.venv
         key: ${{ runner.os }}-venv
   
   # poetry run task lint    
@@ -68,7 +68,7 @@ jobs:
       id: cached-poetry-dependencies
       uses: actions/cache@v3
       with:
-        path: /home/runner/work/DamianX78/Lab1Infrastructure/example-app/.venv
+        path: /home/runner/work/Lab1Infrastructure/Lab1Infrastructure/example-app/.venv
         key: ${{ runner.os }}-venv
     - run: |
         source $VENV poetry run task lint
@@ -97,7 +97,7 @@ jobs:
       id: cached-poetry-dependencies
       uses: actions/cache@v3
       with:
-        path: /home/runner/work/DamianX78/Lab1Infrastructure/example-app/.venv
+        path: /home/runner/work/Lab1Infrastructure/Lab1Infrastructure/example-app/.venv
         key: ${{ runner.os }}-venv
     - run: |
         source $VENV poetry run task formatter
@@ -126,7 +126,7 @@ jobs:
       id: cached-poetry-dependencies
       uses: actions/cache@v3
       with:
-        path: /home/runner/work/DamianX78/Lab1Infrastructure/example-app/.venv
+        path: /home/runner/work/Lab1Infrastructure/Lab1Infrastructure/example-app/.venv
         key: ${{ runner.os }}-venv
     - run: |
         source $VENV poetry run task security
@@ -155,7 +155,7 @@ jobs:
       id: cached-poetry-dependencies
       uses: actions/cache@v3
       with:
-        path: /home/runner/work/DamianX78/Lab1Infrastructure/example-app/.venv
+        path: /home/runner/work/Lab1Infrastructure/Lab1Infrastructure/example-app/.venv
         key: ${{ runner.os }}-venv
     - run: |
         source $VENV poetry run task test
