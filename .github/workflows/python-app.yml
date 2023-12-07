@@ -54,6 +54,10 @@ jobs:
   lint:
   
     needs: build
+    
+    concurrency:
+      group: work
+      
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -85,6 +89,10 @@ jobs:
 
   formatter:
     needs: build
+
+    concurrency:
+      group: work
+      
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -117,6 +125,10 @@ jobs:
 
   security:
     needs: build
+
+    concurrency:
+      group: work
+      
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -150,6 +162,10 @@ jobs:
   tests:
     
     needs: [build, lint, formatter]
+
+    concurrency:
+      group: tests
+      
     runs-on: ubuntu-latest
     defaults:
       run:
